@@ -1,0 +1,705 @@
+<!--
+  HOW TO UPDATE THIS SITE YOURSELF
+
+  PHOTOS: Find the GALLERY_PHOTOS list near the top of the script at the bottom of this file.
+  Upload a photo to a free image host such as imgur.com, copy its direct image link, duplicate
+  one line in that list, then paste the link and write a caption. You can also put an image file
+  beside this exported HTML file and use only its filename. Redeploy the folder after saving.
+
+  FEATURED CHESS GAMES: Find the FEATURED_GAMES list beside the photo list. Duplicate one line,
+  paste a chess.com game link, add a short title, then save and redeploy. No other code changes
+  are needed for either update.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0b0f0e" />
+  <meta name="description" content="Ujjawal Kumar Singh — Fraud Analyst specializing in transaction risk, chargebacks, disputes and behavioral analysis." />
+  <link rel="icon" href="data:," />
+  <title>Ujjawal Kumar Singh — Fraud Analyst</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap');
+
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f0e;
+      --surface: #111615;
+      --surface-2: #161d1b;
+      --ink: #f3f7f5;
+      --muted: #a6b1ad;
+      --faint: #6f7a76;
+      --line: #29312f;
+      --line-bright: #3d4844;
+      --signal: #9af7d4;
+      --signal-2: #f0c267;
+      --danger: #ff796d;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "Sora", sans-serif;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .34);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        color-scheme: light;
+        --bg: #f5f7f5;
+        --surface: #ffffff;
+        --surface-2: #eaf0ed;
+        --ink: #0e1412;
+        --muted: #52605b;
+        --faint: #7a8782;
+        --line: #cfd8d4;
+        --line-bright: #aebbb6;
+        --signal: #087a59;
+        --signal-2: #a55d00;
+        --danger: #c4382e;
+        --shadow: 0 24px 70px rgba(18, 35, 28, .09);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 16px/1.6 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .2;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, #000, transparent 34rem);
+      z-index: -1;
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid var(--signal); outline-offset: 4px; }
+    ::selection { background: var(--signal); color: var(--bg); }
+
+    .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .nav { min-height: 68px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .availability { display: flex; align-items: center; gap: 10px; font-size: .76rem; font-weight: 600; color: var(--muted); }
+    .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 5px color-mix(in srgb, var(--signal) 16%, transparent); }
+    .navlinks { display: flex; align-items: center; gap: 22px; }
+    .navlinks a { color: var(--muted); text-decoration: none; font: 500 .73rem var(--mono); }
+    .navlinks a:hover { color: var(--ink); }
+    .navlinks .nav-cta { color: var(--bg); background: var(--signal); padding: 8px 12px; border-radius: 2px; }
+
+    .hero { min-height: calc(100vh - 68px); display: grid; align-content: center; padding: 74px 0 64px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr); gap: clamp(40px, 8vw, 100px); align-items: end; }
+    .kicker { margin: 0 0 24px; font: 500 .76rem var(--mono); color: var(--signal); }
+    .kicker::before { content: "01 — "; color: var(--faint); }
+    h1 { margin: 0; font-size: clamp(3.25rem, 7.2vw, 6.8rem); line-height: .96; letter-spacing: -.065em; font-weight: 600; max-width: 830px; }
+    h1 em { color: var(--signal); font-style: normal; }
+    .hero-copy { margin: 28px 0 0; max-width: 710px; color: var(--muted); font-size: clamp(1.02rem, 1.6vw, 1.2rem); }
+    .hero-copy strong { color: var(--ink); font-weight: 500; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 0 17px; border: 1px solid var(--line-bright); border-radius: 3px; background: transparent; color: var(--ink); text-decoration: none; font-size: .82rem; font-weight: 600; cursor: pointer; }
+    .button.primary { background: var(--signal); color: var(--bg); border-color: var(--signal); }
+    .button:hover { border-color: var(--signal); }
+    .arrow { font-family: var(--mono); }
+
+    .quick-card { border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+    .quick-head { padding: 14px 16px; display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); font: 500 .68rem var(--mono); color: var(--faint); }
+    .quick-body { padding: 22px 18px; }
+    .quick-label { font: 500 .67rem var(--mono); color: var(--faint); margin: 0 0 5px; }
+    .quick-role { font-size: 1.28rem; font-weight: 600; margin: 0; letter-spacing: -.03em; }
+    .quick-location { color: var(--muted); font-size: .85rem; margin: 3px 0 22px; }
+    .signal-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .signal-cell { background: var(--surface-2); padding: 13px 10px; min-width: 0; }
+    .signal-cell strong { display: block; color: var(--signal); font-size: 1.05rem; letter-spacing: -.04em; }
+    .signal-cell span { display: block; color: var(--faint); font: 400 .58rem/1.35 var(--mono); }
+    .quick-contact { display: grid; gap: 8px; margin-top: 20px; }
+    .quick-contact a { color: var(--muted); text-decoration: none; font-size: .8rem; display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .quick-contact a:hover { color: var(--signal); }
+
+    .rail { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat { padding: 24px 22px; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: 0; }
+    .stat-number { display: block; font-size: clamp(1.65rem, 3vw, 2.45rem); line-height: 1.1; letter-spacing: -.05em; font-weight: 600; }
+    .stat-number.signal { color: var(--signal); }
+    .stat-label { display: block; margin-top: 6px; color: var(--muted); font-size: .72rem; }
+
+    section { padding: 112px 0; }
+    .section-top { display: grid; grid-template-columns: 170px 1fr; gap: 40px; margin-bottom: 52px; }
+    .section-no { margin: 6px 0 0; font: 500 .72rem var(--mono); color: var(--signal); }
+    h2 { margin: 0; font-size: clamp(2.15rem, 4.4vw, 4.2rem); line-height: 1.05; letter-spacing: -.055em; font-weight: 600; max-width: 850px; }
+    .section-lede { color: var(--muted); margin: 18px 0 0; max-width: 720px; font-size: 1rem; }
+
+    .case-stack { display: grid; gap: 22px; }
+    .case { border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+    .case-header { display: grid; grid-template-columns: 120px 1fr auto; gap: 26px; padding: 27px 30px; border-bottom: 1px solid var(--line); align-items: start; }
+    .case-id { font: 500 .68rem var(--mono); color: var(--faint); }
+    .case h3 { margin: 0; font-size: clamp(1.45rem, 3vw, 2.35rem); letter-spacing: -.045em; line-height: 1.12; font-weight: 600; }
+    .case-type { font: 500 .66rem var(--mono); color: var(--danger); border: 1px solid color-mix(in srgb, var(--danger) 48%, transparent); padding: 6px 8px; white-space: nowrap; }
+    .case-body { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .case-part { padding: 27px 30px 31px; border-right: 1px solid var(--line); }
+    .case-part:last-child { border-right: 0; }
+    .case-part h4 { margin: 0 0 13px; font: 500 .68rem var(--mono); color: var(--signal); }
+    .case-part p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .case-part strong { color: var(--ink); font-weight: 500; }
+    .impact { color: var(--signal) !important; }
+    .case-foot { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 30px; border-top: 1px solid var(--line); }
+    .chip { font: 400 .63rem var(--mono); color: var(--faint); border: 1px solid var(--line); padding: 4px 7px; }
+
+    .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(44px, 8vw, 110px); align-items: start; }
+    .about-copy { font-size: clamp(1.2rem, 2.1vw, 1.7rem); line-height: 1.5; letter-spacing: -.025em; margin: 0; }
+    .about-copy strong { color: var(--signal); font-weight: 500; }
+    .skill-list { border-top: 1px solid var(--line-bright); }
+    .skill { display: flex; justify-content: space-between; gap: 18px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .skill span:first-child { font-size: .9rem; }
+    .skill span:last-child { color: var(--faint); font: 400 .65rem var(--mono); text-align: right; }
+
+    .timeline { border-top: 1px solid var(--line-bright); }
+    .role { display: grid; grid-template-columns: 170px .85fr 1.25fr; gap: 30px; padding: 30px 0; border-bottom: 1px solid var(--line); }
+    .role-date { color: var(--faint); font: 400 .68rem var(--mono); }
+    .role-title h3 { margin: 0 0 3px; font-size: 1.1rem; letter-spacing: -.02em; }
+    .role-title p { margin: 0; color: var(--signal); font: 400 .71rem var(--mono); }
+    .role-detail { margin: 0; padding-left: 18px; color: var(--muted); font-size: .88rem; }
+    .role-detail li + li { margin-top: 8px; }
+
+    .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .edu { background: var(--surface); padding: 25px; }
+    .edu-year { color: var(--signal); font: 500 .67rem var(--mono); }
+    .edu h3 { margin: 30px 0 8px; font-size: 1rem; }
+    .edu p { color: var(--muted); margin: 0; font-size: .82rem; }
+
+    .hobby-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr); gap: 22px; }
+    .hobby-panel { border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+    .hobby-head { min-height: 112px; padding: 23px 26px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+    .hobby-label { margin: 0 0 7px; color: var(--signal); font: 500 .68rem var(--mono); }
+    .hobby-head h3 { margin: 0; font-size: clamp(1.4rem, 2.7vw, 2.15rem); line-height: 1.1; letter-spacing: -.04em; }
+    .hobby-mark { color: var(--line-bright); font: 500 2.4rem/1 var(--mono); }
+    .hobby-body { padding: 22px 26px 27px; }
+    .hobby-intro { margin: 0 0 20px; color: var(--muted); font-size: .88rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .photo-card { position: relative; min-height: 190px; padding: 0; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: zoom-in; text-align: left; }
+    .photo-card img { display: block; width: 100%; height: 100%; min-height: 190px; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .45s ease; }
+    .photo-card::after { content: "VIEW ↗"; position: absolute; top: 10px; right: 10px; padding: 5px 7px; background: color-mix(in srgb, var(--bg) 84%, transparent); color: var(--ink); font: 500 .58rem var(--mono); opacity: 0; transition: opacity .2s ease; }
+    .photo-card:hover img { transform: scale(1.025); }
+    .photo-card:hover::after, .photo-card:focus-visible::after { opacity: 1; }
+    .photo-caption { position: absolute; inset: auto 0 0; padding: 24px 12px 10px; background: linear-gradient(transparent, rgba(0, 0, 0, .82)); color: #fff; font-size: .75rem; }
+    .empty-state { min-height: 220px; border: 1px dashed var(--line-bright); background: var(--surface-2); display: grid; place-items: center; padding: 34px; text-align: center; }
+    .empty-state strong { display: block; margin-bottom: 6px; font-size: .95rem; }
+    .empty-state span { display: block; max-width: 390px; color: var(--muted); font-size: .78rem; }
+
+    .chess-profile { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 16px; border: 1px solid var(--line-bright); background: var(--surface-2); text-decoration: none; }
+    .chess-piece { display: grid; place-items: center; width: 54px; height: 54px; background: var(--ink); color: var(--bg); font: 500 1.9rem/1 Georgia, serif; }
+    .chess-profile strong { display: block; font-size: .95rem; }
+    .chess-profile small { display: block; color: var(--muted); font: 400 .64rem var(--mono); margin-top: 3px; }
+    .chess-profile:hover { border-color: var(--signal); }
+    .featured-games { display: grid; gap: 8px; margin-top: 18px; }
+    .featured-title, .recent-title { margin: 0 0 8px; color: var(--faint); font: 500 .64rem var(--mono); }
+    .game-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+    .game-card:first-of-type { border-top: 1px solid var(--line); }
+    .game-result { min-width: 42px; color: var(--signal); font: 500 .64rem var(--mono); }
+    .game-result.loss { color: var(--danger); }
+    .game-result.draw { color: var(--signal-2); }
+    .game-title { min-width: 0; }
+    .game-title strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .82rem; }
+    .game-title span { display: block; color: var(--faint); font: 400 .6rem var(--mono); margin-top: 2px; }
+    .game-arrow { color: var(--faint); font: 400 .75rem var(--mono); }
+    .game-card:hover .game-title strong, .game-card:hover .game-arrow { color: var(--signal); }
+    .recent-block { margin-top: 22px; }
+    .recent-note { margin: 0; padding: 16px; border: 1px dashed var(--line-bright); color: var(--muted); font-size: .78rem; }
+    .photo-lightbox { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 20px; background: rgba(3, 6, 5, .92); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s ease; }
+    .photo-lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox-frame { width: min(1040px, 100%); max-height: calc(100vh - 40px); display: grid; grid-template-rows: minmax(0, 1fr) auto; border: 1px solid var(--line-bright); background: var(--surface); box-shadow: var(--shadow); }
+    .lightbox-frame img { display: block; width: 100%; max-height: calc(100vh - 110px); object-fit: contain; background: #050706; }
+    .lightbox-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 13px 15px; }
+    .lightbox-caption { margin: 0; color: var(--muted); font-size: .78rem; }
+    .lightbox-close { border: 0; background: transparent; color: var(--ink); cursor: pointer; font: 500 .68rem var(--mono); }
+
+    .contact-panel { border: 1px solid var(--line-bright); background: var(--surface); padding: clamp(30px, 6vw, 70px); display: grid; grid-template-columns: 1.2fr .8fr; gap: 60px; align-items: end; box-shadow: var(--shadow); }
+    .contact-panel h2 { max-width: 650px; }
+    .contact-panel p { color: var(--muted); max-width: 570px; margin: 20px 0 0; }
+    .contact-list { display: grid; }
+    .contact-list a { display: flex; justify-content: space-between; gap: 18px; padding: 15px 0; border-bottom: 1px solid var(--line); text-decoration: none; font-size: .84rem; color: var(--muted); }
+    .contact-list a:hover { color: var(--signal); }
+    .contact-list a span { font: 400 .67rem var(--mono); color: var(--faint); }
+    .copy { border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; text-align: left; }
+    footer { padding: 28px 0 42px; display: flex; justify-content: space-between; gap: 20px; color: var(--faint); font: 400 .65rem var(--mono); }
+
+    .reveal { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal.seen { animation: settle-in .55s ease both; }
+      @keyframes settle-in { from { opacity: .72; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 18px); opacity: 0; pointer-events: none; z-index: 20; background: var(--signal); color: var(--bg); font-weight: 600; font-size: .78rem; padding: 11px 14px; border-radius: 2px; transition: .2s ease; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 880px) {
+      .hero { min-height: 0; }
+      .hero-grid, .about-grid, .hobby-grid, .contact-panel { grid-template-columns: 1fr; }
+      .quick-card { max-width: 560px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .section-top { grid-template-columns: 1fr; gap: 12px; }
+      .case-header { grid-template-columns: 90px 1fr; }
+      .case-type { grid-column: 2; justify-self: start; }
+      .case-body { grid-template-columns: 1fr; }
+      .case-part { border-right: 0; border-bottom: 1px solid var(--line); }
+      .case-part:last-child { border-bottom: 0; }
+      .role { grid-template-columns: 120px 1fr; }
+      .role-detail { grid-column: 2; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 28px, 560px); }
+      .topbar { position: relative; }
+      .nav { min-height: 62px; }
+      .navlinks a:not(.nav-cta) { display: none; }
+      .availability { font-size: .68rem; }
+      .navlinks .nav-cta { font-size: .65rem; }
+      .hero { padding: 60px 0 46px; }
+      h1 { font-size: clamp(3rem, 16vw, 4.55rem); }
+      .hero-copy { font-size: .98rem; }
+      .hero-actions .button { flex: 1 1 150px; }
+      .quick-card { width: 100%; }
+      .signal-row { grid-template-columns: 1fr; }
+      .signal-cell { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      .signal-cell span { max-width: 110px; text-align: right; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid var(--line); }
+      .stat:last-child { border-bottom: 0; }
+      section { padding: 78px 0; }
+      .case-header { grid-template-columns: 1fr; gap: 12px; padding: 23px 20px; }
+      .case-type { grid-column: 1; }
+      .case-part { padding: 23px 20px; }
+      .case-foot { padding: 13px 20px; }
+      .role { grid-template-columns: 1fr; gap: 10px; }
+      .role-detail { grid-column: 1; }
+      .edu-grid, .gallery-grid { grid-template-columns: 1fr; }
+      .hobby-head, .hobby-body { padding-inline: 20px; }
+      .chess-profile { grid-template-columns: 48px minmax(0, 1fr) auto; }
+      .chess-piece { width: 48px; height: 48px; }
+      .contact-panel { gap: 38px; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .photo-card img, .photo-card::after, .photo-lightbox { transition: none; }
+      .photo-card:hover img { transform: none; }
+      .toast { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav wrap" aria-label="Portfolio navigation">
+      <div class="availability"><span class="pulse" aria-hidden="true"></span>Open to fraud, AML &amp; disputes roles</div>
+      <div class="navlinks">
+        <a href="#cases">Case studies</a>
+        <a href="#hobbies">Hobbies</a>
+        <a href="#experience">Experience</a>
+        <a class="nav-cta" href="mailto:xeanuzz@gmail.com?subject=Opportunity%20for%20Ujjawal%20Kumar%20Singh">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker">UJJAWAL KUMAR SINGH / FRAUD ANALYST</p>
+          <h1 id="hero-title">I analyze data to <em>prevent fraud.</em></h1>
+          <p class="hero-copy">Fraud Analyst specializing in <strong>transaction risk assessment, chargeback management and behavioral analysis.</strong> I protect businesses from financial loss while helping genuine users pass through.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#cases">View case studies <span class="arrow">↓</span></a>
+            <a class="button" href="assets/ujjawal-kumar-singh-resume.pdf" download>Download résumé <span class="arrow">↘</span></a>
+          </div>
+        </div>
+        <aside class="quick-card" aria-label="Recruiter quick view">
+          <div class="quick-head"><span>RECRUITER QUICK VIEW</span><span>AVAILABLE</span></div>
+          <div class="quick-body">
+            <p class="quick-label">CURRENT ROLE</p>
+            <p class="quick-role">Fraud Analyst · TELUS Digital</p>
+            <p class="quick-location">Ghaziabad / Noida, India · Delhi NCR &amp; remote</p>
+            <div class="signal-row" aria-label="Key performance metrics">
+              <div class="signal-cell"><strong>~12/hr</strong><span>HIGH-RISK REVIEWS</span></div>
+              <div class="signal-cell"><strong>&lt;1%</strong><span>CHARGEBACK RATE</span></div>
+              <div class="signal-cell"><strong>&gt;95%</strong><span>QUALITY SCORE</span></div>
+            </div>
+            <div class="quick-contact">
+              <a href="mailto:xeanuzz@gmail.com"><span>xeanuzz@gmail.com</span><span class="arrow">↗</span></a>
+              <a href="tel:+918638497065"><span>+91 86384 97065</span><span class="arrow">↗</span></a>
+              <a href="https://www.linkedin.com/in/ujjawal-singh-2b87762b8/" target="_blank" rel="noopener"><span>LinkedIn profile</span><span class="arrow">↗</span></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="rail">
+      <div class="stats wrap" aria-label="Career performance summary">
+        <div class="stat"><span class="stat-number signal" data-target="12" data-prefix="~" data-suffix="/hr">~12/hr</span><span class="stat-label">High-risk transactions reviewed</span></div>
+        <div class="stat"><span class="stat-number" data-target="1" data-prefix="&lt;" data-suffix="%">&lt;1%</span><span class="stat-label">Chargeback rate maintained</span></div>
+        <div class="stat"><span class="stat-number" data-target="95" data-prefix="&gt;" data-suffix="%">&gt;95%</span><span class="stat-label">Quality score maintained</span></div>
+        <div class="stat"><span class="stat-number" data-target="3" data-suffix=" roles">3 roles</span><span class="stat-label">Customer operations to fraud analysis</span></div>
+      </div>
+    </div>
+
+    <section id="cases" class="wrap reveal">
+      <div class="section-top">
+        <p class="section-no">02 / KEY DISCOVERIES</p>
+        <div><h2>Patterns found. Loopholes closed. Loss prevented.</h2><p class="section-lede">Two anonymized professional investigations showing how I move from a weak signal to a defensible finding. Client names and proprietary rules are intentionally excluded.</p></div>
+      </div>
+
+      <div class="case-stack">
+        <article class="case">
+          <div class="case-header"><div class="case-id">CASE 01 / 02</div><h3>The “Long-Haul” Seller Scheme</h3><div class="case-type">MERCHANT FRAUD · HIGH IMPACT</div></div>
+          <div class="case-body">
+            <div class="case-part"><h4>01 — SIGNAL</h4><p>A cluster of seller accounts paired high-value <strong>decoy listings</strong> with unusually long 6–8 week processing windows, using platform boosts to aggregate orders before shipping deadlines.</p></div>
+            <div class="case-part"><h4>02 — INVESTIGATION</h4><p>I connected “Item Not Received” chargebacks to extended shipping windows, then used <strong>OSINT reverse-image search</strong> to establish that product imagery had been scraped.</p></div>
+            <div class="case-part"><h4>03 — OUTCOME</h4><p class="impact">The investigation led to a targeted sweep and the suspension of <strong>hundreds of fraudulent accounts</strong>, preventing further financial loss.</p></div>
+          </div>
+          <div class="case-foot"><span class="chip">CHARGEBACK ANALYSIS</span><span class="chip">OSINT</span><span class="chip">LINK ANALYSIS</span><span class="chip">MERCHANT RISK</span></div>
+        </article>
+
+        <article class="case">
+          <div class="case-header"><div class="case-id">CASE 02 / 02</div><h3>The Authentication Loophole</h3><div class="case-type">ACCOUNT TAKEOVER · CRITICAL</div></div>
+          <div class="case-body">
+            <div class="case-part"><h4>01 — VULNERABILITY</h4><p>Recovery questions depended on answers visible inside the account dashboard, including recent order details. An attacker with access could reuse that information to pass an appeal.</p></div>
+            <div class="case-part"><h4>02 — PROPOSAL</h4><p>I proposed <strong>external knowledge-based authentication</strong> using the account creation date — retrievable by a legitimate owner from private email, but not exposed inside the compromised account.</p></div>
+            <div class="case-part"><h4>03 — OUTCOME</h4><p class="impact">The logic change sharply filtered malicious actors during appeals, <strong>closing the recovery loop</strong> and reducing repeat abuse.</p></div>
+          </div>
+          <div class="case-foot"><span class="chip">ACCOUNT TAKEOVER</span><span class="chip">RECOVERY CONTROLS</span><span class="chip">ROOT-CAUSE ANALYSIS</span><span class="chip">PROCESS DESIGN</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap reveal" id="about">
+      <div class="section-top"><p class="section-no">03 / ABOUT</p><div><h2>Customer context became my fraud advantage.</h2></div></div>
+      <div class="about-grid">
+        <p class="about-copy">I began in customer support, learning how real people explain messy situations. That experience sharpened my judgment when I moved into <strong>fraud prevention and risk management.</strong> Today at TELUS Digital, I protect transaction security for high-volume clients, investigate anomalies and handle complex disputes.</p>
+        <div class="skill-list" aria-label="Core skills">
+          <div class="skill"><span>Fraud Detection</span><span>TRANSACTION REVIEW</span></div>
+          <div class="skill"><span>SQL / Excel</span><span>ADVANCED</span></div>
+          <div class="skill"><span>Chargeback Management</span><span>END-TO-END</span></div>
+          <div class="skill"><span>Ekata &amp; Accertify</span><span>INVESTIGATION</span></div>
+          <div class="skill"><span>Risk Analysis</span><span>BEHAVIORAL</span></div>
+          <div class="skill"><span>VBA Automation</span><span>FUNDAMENTALS</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="wrap reveal">
+      <div class="section-top"><p class="section-no">04 / EXPERIENCE</p><div><h2>From customer operations to transaction defense.</h2></div></div>
+      <div class="timeline">
+        <article class="role"><div class="role-date">OCT 2024 — PRESENT</div><div class="role-title"><h3>Fraud Analyst</h3><p>TELUS DIGITAL</p></div><ul class="role-detail"><li>Review approximately 12 high-risk e-commerce transactions per hour while maintaining a chargeback rate below 1% and quality scores above 95%.</li><li>Analyze historical behavior, location and multi-signal risk patterns; represent chargebacks with issuing and acquiring banks.</li><li>Earned multiple Performer of the Month awards for sustained performance.</li></ul></article>
+        <article class="role"><div class="role-date">MAY 2022 — MAR 2024</div><div class="role-title"><h3>Customer Service Executive</h3><p>TECH MAHINDRA</p></div><ul class="role-detail"><li>Resolved billing-related queries through chat support while adhering to SLA standards.</li><li>Built strong conflict de-escalation and written communication skills.</li></ul></article>
+        <article class="role"><div class="role-date">JAN 2022 — MAY 2022</div><div class="role-title"><h3>Customer Care Officer</h3><p>DHANI HEALTHCARE</p></div><ul class="role-detail"><li>Managed customer service operations primarily over email.</li><li>Took end-to-end ownership of customer complaints.</li></ul></article>
+      </div>
+    </section>
+
+    <section class="wrap reveal">
+      <div class="section-top"><p class="section-no">05 / EDUCATION</p><div><h2>The technical foundation.</h2></div></div>
+      <div class="edu-grid">
+        <article class="edu"><div class="edu-year">2017 — 2020</div><h3>Bachelor of Computer Applications</h3><p>Intellectual Institute of Management and Technology</p></article>
+        <article class="edu"><div class="edu-year">2014 — 2016</div><h3>Higher Secondary</h3><p>Arya Vidyapeeth College</p></article>
+        <article class="edu"><div class="edu-year">PASSED 2014</div><h3>Matriculation</h3><p>GM English High School</p></article>
+      </div>
+    </section>
+
+    <section class="wrap reveal" id="hobbies">
+      <div class="section-top"><p class="section-no">06 / OUTSIDE THE QUEUE</p><div><h2>Observation, pattern recognition and patient play.</h2><p class="section-lede">Photography keeps my eye trained on details; chess keeps my decisions deliberate. Both sharpen the same instincts I bring to investigations.</p></div></div>
+      <div class="hobby-grid">
+        <article class="hobby-panel">
+          <div class="hobby-head"><div><p class="hobby-label">PHOTOGRAPHY</p><h3>Frames worth keeping</h3></div><span class="hobby-mark" aria-hidden="true">⌑</span></div>
+          <div class="hobby-body">
+            <p class="hobby-intro">A growing collection of moments, light and details that made me stop. Select any photograph to see it full size.</p>
+            <div class="gallery-grid" id="photoGallery" aria-live="polite"></div>
+          </div>
+        </article>
+
+        <article class="hobby-panel">
+          <div class="hobby-head"><div><p class="hobby-label">CHESS</p><h3>Thinking in positions</h3></div><span class="hobby-mark" aria-hidden="true">♞</span></div>
+          <div class="hobby-body">
+            <p class="hobby-intro">Practical games, favorite wins and the positions that rewarded one more careful look.</p>
+            <a class="chess-profile" href="https://www.chess.com/member/singhujjawal" target="_blank" rel="noopener">
+              <span class="chess-piece" aria-hidden="true">♞</span>
+              <span><strong>singhujjawal</strong><small>CHESS.COM PROFILE</small></span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <div class="featured-games" id="featuredGames"></div>
+            <div class="recent-block">
+              <p class="recent-title">RECENT GAMES</p>
+              <div id="recentGames" aria-live="polite"><p class="recent-note">Loading the latest public games from Chess.com…</p></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap reveal" id="contact">
+      <div class="contact-panel">
+        <div><p class="section-no">07 / CONTACT</p><h2>Looking for a reviewer who can explain the “why” behind the decision?</h2><p>I’m open to Fraud, AML and Disputes roles across Delhi NCR and remote. Let’s talk about the team, the queue and the problems you need solved.</p></div>
+        <div class="contact-list">
+          <a href="mailto:xeanuzz@gmail.com?subject=Opportunity%20for%20Ujjawal%20Kumar%20Singh"><span>EMAIL</span>xeanuzz@gmail.com</a>
+          <a href="tel:+918638497065"><span>PHONE</span>+91 86384 97065</a>
+          <a href="https://www.linkedin.com/in/ujjawal-singh-2b87762b8/" target="_blank" rel="noopener"><span>LINKEDIN</span>View profile</a>
+          <button class="contact-list copy" id="copyEmail" type="button"><span style="display:flex;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid var(--line);font-size:.84rem;color:var(--muted);width:100%"><span style="font:400 .67rem var(--mono);color:var(--faint)">COPY</span>Copy email address</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap"><span>UJJAWAL KUMAR SINGH · FRAUD ANALYST</span><span>GHAZIABAD / NOIDA · INDIA</span></footer>
+  <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Expanded photograph" aria-hidden="true">
+    <div class="lightbox-frame">
+      <img id="lightboxImage" alt="" />
+      <div class="lightbox-foot"><p class="lightbox-caption" id="lightboxCaption"></p><button class="lightbox-close" id="lightboxClose" type="button">CLOSE ×</button></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Email copied</div>
+
+  <script>
+    (function () {
+      /*
+        ADD A PHOTO: duplicate the example line below, remove the // at its start,
+        paste a direct image link (or a filename beside this HTML file), and edit the caption.
+        Then save this file and redeploy the folder to Netlify.
+      */
+      const GALLERY_PHOTOS = [
+        // { src: "https://i.imgur.com/your-photo.jpg", caption: "A short description of the photograph" },
+      ];
+
+      /*
+        PIN A CHESS GAME: duplicate the example line below, remove the // at its start,
+        paste the chess.com game URL, and give the game a short title. Save and redeploy.
+      */
+      const FEATURED_GAMES = [
+        // { url: "https://www.chess.com/game/live/000000000000", title: "A patient endgame win" },
+      ];
+
+      var gallery = document.getElementById('photoGallery');
+      var lightbox = document.getElementById('photoLightbox');
+      var lightboxImage = document.getElementById('lightboxImage');
+      var lightboxCaption = document.getElementById('lightboxCaption');
+      var lightboxClose = document.getElementById('lightboxClose');
+      var lastPhotoTrigger = null;
+
+      function showGalleryEmptyState() {
+        gallery.innerHTML = '<div class="empty-state"><div><strong>The first frame is coming soon.</strong><span>New photographs will appear here as the collection grows.</span></div></div>';
+      }
+
+      function openPhoto(photo, trigger) {
+        lastPhotoTrigger = trigger;
+        lightboxImage.src = photo.src;
+        lightboxImage.alt = photo.caption || 'Expanded photograph';
+        lightboxCaption.textContent = photo.caption || 'Untitled photograph';
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        lightboxClose.focus();
+      }
+
+      function closePhoto() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        lightboxImage.removeAttribute('src');
+        if (lastPhotoTrigger) lastPhotoTrigger.focus();
+      }
+
+      function renderGallery() {
+        if (!GALLERY_PHOTOS.length) { showGalleryEmptyState(); return; }
+        GALLERY_PHOTOS.forEach(function (photo) {
+          if (!photo || !photo.src) return;
+          var card = document.createElement('button');
+          card.className = 'photo-card';
+          card.type = 'button';
+          card.setAttribute('aria-label', 'Open photograph: ' + (photo.caption || 'Untitled photograph'));
+          var image = document.createElement('img');
+          image.src = photo.src;
+          image.alt = photo.caption || 'Photograph by Ujjawal Kumar Singh';
+          image.loading = 'lazy';
+          var caption = document.createElement('span');
+          caption.className = 'photo-caption';
+          caption.textContent = photo.caption || 'Untitled photograph';
+          card.appendChild(image);
+          card.appendChild(caption);
+          card.addEventListener('click', function () { openPhoto(photo, card); });
+          gallery.appendChild(card);
+        });
+        if (!gallery.children.length) showGalleryEmptyState();
+      }
+
+      function renderFeaturedGames() {
+        var container = document.getElementById('featuredGames');
+        if (!FEATURED_GAMES.length) return;
+        var heading = document.createElement('p');
+        heading.className = 'featured-title';
+        heading.textContent = 'FEATURED GAMES';
+        container.appendChild(heading);
+        FEATURED_GAMES.forEach(function (game, index) {
+          if (!game || !game.url) return;
+          var link = document.createElement('a');
+          link.className = 'game-card';
+          link.href = game.url;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.innerHTML = '<span class="game-result">PINNED</span><span class="game-title"><strong></strong><span>CHESS.COM · FULL GAME</span></span><span class="game-arrow">↗</span>';
+          link.querySelector('strong').textContent = game.title || ('Featured game ' + (index + 1));
+          container.appendChild(link);
+        });
+      }
+
+      function readableTimeControl(game) {
+        var control = game.time_control || '';
+        var timeClass = game.time_class ? game.time_class.charAt(0).toUpperCase() + game.time_class.slice(1) : 'Game';
+        if (/^\d+$/.test(control)) return timeClass + ' · ' + Math.round(Number(control) / 60) + ' min';
+        if (/^\d+\+\d+$/.test(control)) {
+          var parts = control.split('+');
+          return timeClass + ' · ' + Math.round(Number(parts[0]) / 60) + '+' + parts[1];
+        }
+        return timeClass + (control ? ' · ' + control : '');
+      }
+
+      function gamePerspective(game) {
+        var username = 'singhujjawal';
+        var isWhite = game.white && String(game.white.username).toLowerCase() === username;
+        var me = isWhite ? game.white : game.black;
+        var opponent = isWhite ? game.black : game.white;
+        var draws = ['agreed', 'repetition', 'stalemate', 'insufficient', 'timevsinsufficient', '50move'];
+        var result = me && me.result === 'win' ? 'WIN' : (me && draws.indexOf(me.result) !== -1 ? 'DRAW' : 'LOSS');
+        return { result: result, opponent: opponent && opponent.username ? opponent.username : 'Unknown opponent' };
+      }
+
+      function renderRecentGames(games) {
+        var container = document.getElementById('recentGames');
+        container.innerHTML = '';
+        games.slice().sort(function (a, b) { return (b.end_time || 0) - (a.end_time || 0); }).slice(0, 5).forEach(function (game) {
+          if (!game || !game.url) return;
+          var view = gamePerspective(game);
+          var link = document.createElement('a');
+          link.className = 'game-card';
+          link.href = game.url;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          var result = document.createElement('span');
+          result.className = 'game-result ' + view.result.toLowerCase();
+          result.textContent = view.result;
+          var title = document.createElement('span');
+          title.className = 'game-title';
+          var opponent = document.createElement('strong');
+          opponent.textContent = 'vs ' + view.opponent;
+          var meta = document.createElement('span');
+          meta.textContent = readableTimeControl(game).toUpperCase();
+          title.appendChild(opponent);
+          title.appendChild(meta);
+          var arrow = document.createElement('span');
+          arrow.className = 'game-arrow';
+          arrow.textContent = '↗';
+          link.appendChild(result);
+          link.appendChild(title);
+          link.appendChild(arrow);
+          container.appendChild(link);
+        });
+        if (!container.children.length) container.innerHTML = '<p class="recent-note">No recent public games were found. Open the Chess.com profile for the complete history.</p>';
+      }
+
+      function showChessFallback() {
+        document.getElementById('recentGames').innerHTML = '<p class="recent-note">Recent games could not be loaded here. Open the Chess.com profile above to see the latest games and full move history.</p>';
+      }
+
+      async function loadRecentGames() {
+        try {
+          var archivesResponse = await fetch('https://api.chess.com/pub/player/singhujjawal/games/archives');
+          if (!archivesResponse.ok) throw new Error('Archive list unavailable');
+          var archivesData = await archivesResponse.json();
+          if (!archivesData.archives || !archivesData.archives.length) {
+            document.getElementById('recentGames').innerHTML = '<p class="recent-note">No public games are available yet. Open the Chess.com profile above to follow future games.</p>';
+            return;
+          }
+          var latestArchive = archivesData.archives[archivesData.archives.length - 1];
+          var gamesResponse = await fetch(latestArchive);
+          if (!gamesResponse.ok) throw new Error('Latest games unavailable');
+          var gamesData = await gamesResponse.json();
+          renderRecentGames(gamesData.games || []);
+        } catch (error) {
+          showChessFallback();
+        }
+      }
+
+      renderGallery();
+      renderFeaturedGames();
+      loadRecentGames();
+      lightboxClose.addEventListener('click', closePhoto);
+      lightbox.addEventListener('click', function (event) { if (event.target === lightbox) closePhoto(); });
+      document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && lightbox.classList.contains('open')) closePhoto(); });
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var reveals = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach(function (el) { el.classList.add('seen'); });
+      } else {
+        var revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { entry.target.classList.add('seen'); revealObserver.unobserve(entry.target); }
+          });
+        }, { threshold: .08 });
+        reveals.forEach(function (el) { revealObserver.observe(el); });
+      }
+
+      var counters = document.querySelectorAll('[data-target]');
+      function animateCounter(el) {
+        if (reduce) return;
+        var target = Number(el.getAttribute('data-target'));
+        var prefix = el.getAttribute('data-prefix') || '';
+        var suffix = el.getAttribute('data-suffix') || '';
+        var start = performance.now();
+        var duration = 900;
+        function tick(now) {
+          var progress = Math.min((now - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = prefix + Math.round(target * eased) + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+      if (!reduce && 'IntersectionObserver' in window) {
+        var counterObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { animateCounter(entry.target); counterObserver.unobserve(entry.target); }
+          });
+        }, { threshold: .5 });
+        counters.forEach(function (el) { counterObserver.observe(el); });
+      }
+
+      var copy = document.getElementById('copyEmail');
+      var toast = document.getElementById('toast');
+      var timer;
+      copy.addEventListener('click', function () {
+        var email = 'xeanuzz@gmail.com';
+        function done() { clearTimeout(timer); toast.classList.add('show'); timer = setTimeout(function () { toast.classList.remove('show'); }, 2000); }
+        function fallback() {
+          var t = document.createElement('textarea'); t.value = email; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+          document.body.appendChild(t); t.select();
+          try { document.execCommand('copy'); done(); } catch (e) { toast.textContent = email; done(); }
+          document.body.removeChild(t);
+        }
+        if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(email).then(done, fallback); else fallback();
+      });
+    }());
+  </script>
+</body>
+</html>
